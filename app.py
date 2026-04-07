@@ -18,7 +18,43 @@ ADMIN_USERNAME = os.environ.get("ADMIN_USERNAME", "admin")
 ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "admin123")
 
 app = Flask(__name__)
+def init_db():
+    conn = sqlite3.connect(DB_FILE)
+    c = conn.cursor()
+
+    c.execute("""
+        CREATE TABLE IF NOT EXISTS licenses (
+            machine_id TEXT PRIMARY KEY,
+            user TEXT NOT NULL,
+            created_at TEXT NOT NULL,
+            expiry TEXT NOT NULL,
+            lifetime INTEGER NOT NULL DEFAULT 0,
+            sync_days INTEGER NOT NULL DEFAULT 7,
+            blocked INTEGER NOT NULL DEFAULT 0,
+            last_seen TEXT,
+            note TEXT,
+            server_url TEXT,
+            machine_alias TEXT,
+            custom_banner TEXT
+        )
+    """)
+
+    c.execute("""
+        CREATE TABLE IF NOT EXISTS app_meta (
+            key TEXT PRIMARY KEY,
+            value TEXT
+        )
+    """)
+
+    c.execute("""
+        INSERT OR IGNORE INTO app_meta(key, value)
+        VALUES ('maintenance_mode', '0')
+    """)
+
+    conn.commit()
+    conn.close()
 app.secret_key = APP_SECRET
+init_db()
 
 
 LOGIN_HTML = """
