@@ -10,8 +10,8 @@ from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import padding
 
 DB_FILE = "licenses.db"
-PRIVATE_KEY_FILE = "private_key.pem"
-PUBLIC_KEY_FILE = "public_key.pem"
+PRIVATE_KEY_FILE = "/etc/secrets/private_key.pem"
+PUBLIC_KEY_FILE = "/etc/secrets/public_key.pem"
 
 APP_SECRET = os.environ.get("FLASK_SECRET", "fallback_secret_123")
 ADMIN_USERNAME = os.environ.get("ADMIN_USERNAME", "admin")
