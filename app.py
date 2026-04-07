@@ -13,9 +13,9 @@ DB_FILE = "licenses.db"
 PRIVATE_KEY_FILE = "private_key.pem"
 PUBLIC_KEY_FILE = "public_key.pem"
 
-APP_SECRET = os.environ["FLASK_SECRET"]
-ADMIN_USERNAME = os.environ["ADMIN_USERNAME"]
-ADMIN_PASSWORD = os.environ["ADMIN_PASSWORD"]
+APP_SECRET = os.environ.get("FLASK_SECRET", "fallback_secret_123")
+ADMIN_USERNAME = os.environ.get("ADMIN_USERNAME", "admin")
+ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "admin123")
 
 app = Flask(__name__)
 app.secret_key = APP_SECRET
